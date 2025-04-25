@@ -1,0 +1,38 @@
+name: Auto Conventional Commit with Gemini
+
+on:
+  push:
+    branches-ignore: [main]  # prevent auto-commits on main
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  rewrite-commit:
+    runs-on: ubuntu-latest
+    name: Rewrite commit messages using Gemini
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # ensures full commit history is available
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install GeminiCommit
+        run: |
+          npm install -g geminicommit
+
+      - name: Run GeminiCommit
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          geminicommit --yes --provider=gemini --format=conventional
+
+      - name: Push rewritten commits
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git push --force
