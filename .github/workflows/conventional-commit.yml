@@ -27,9 +27,8 @@ jobs:
           go install github.com/tfkhdyt/geminicommit@latest
 
       - name: Run GeminiCommit
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
+          geminicommit config key set ${{ secrets.GOOGLE_API_KEY }}
           geminicommit --yes --model "gemini-2.0-flash" -c "rewrite to conventional commits"
 
       - name: Push rewritten commits
