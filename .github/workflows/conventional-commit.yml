@@ -30,7 +30,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          geminicommit --yes --provider=gemini --format=conventional
+          geminicommit --yes --model "gemini-2.0-flash" -c "rewrite to conventional commits"
 
       - name: Push rewritten commits
         run: |
