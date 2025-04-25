@@ -12,18 +12,19 @@ jobs:
     name: Rewrite commit messages using Gemini
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0  # ensures full commit history is available
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Set up Golang
+        uses: actions/setup-go@v5
         with:
-          node-version: '18'
+          go-version: '>=1.17.0'
+        run: go version
 
       - name: Install GeminiCommit
         run: |
-          npm install -g geminicommit
+          go install github.com/tfkhdyt/geminicommit@latest
 
       - name: Run GeminiCommit
         env:
