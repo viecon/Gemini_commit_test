@@ -28,6 +28,7 @@ jobs:
 
       - name: Run GeminiCommit
         run: |
+          export GEMINICOMMIT_NO_TTY=true
           geminicommit config key set ${{ secrets.GOOGLE_API_KEY }}
           geminicommit --yes --model "gemini-2.0-flash" -c "rewrite to conventional commits"
 
